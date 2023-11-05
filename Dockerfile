@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package.json package-lock.json /app/
 
 # Install project dependencies
-RUN npm install
+RUN npm install --force
 
 # Copy the entire project directory to the container
 COPY . /app
