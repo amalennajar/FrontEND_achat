@@ -1,29 +1,25 @@
-# Use a base image with Node.js and NPM installed
+# Stage 1: Build the Angular application
 FROM node:latest as build
 
-# Set the working directory in the container
-WORKDIR /app
+WORKDIR /usr/src/app
 
 # Copy package.json and package-lock.json to the container
-COPY package.json package-lock.json /app/
+COPY package.json package-lock.json ./
 
-# Install project dependencies
-RUN npm install --force
+# Install project dependencies, bypassing peer dependency check
+RUN npm install --legacy-peer-deps
 
-# Copy the entire project directory to the container
-COPY . /app
+# Copy the application files
+COPY . .
 
-# Build the Angular application (replace 'ng build' with your actual build command)
+# Build the Angular application
 RUN npm run build
 
-# Use a lightweight image for serving the application
+# Stage 2: Use a lightweight image for serving the application
 FROM nginx:latest
 
 # Copy the built application to the nginx public folder
-COPY --from=build /app/dist/ /usr/share/nginx/html
+COPY --from=build /usr/src/app/dist/ /usr/share/nginx/html
 
 # Expose the port on which the application will run (if needed)
-EXPOSE 82
-
-# The default command to start the nginx server (not usually needed in the Dockerfile)
-# CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 80
