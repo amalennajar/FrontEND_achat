@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 
 # Install project dependencies, bypassing peer dependency check
-RUN npm install --legacy-peer-deps
+RUN npm install 
 
 # Copy the application files
 COPY . .
