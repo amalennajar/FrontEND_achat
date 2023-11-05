@@ -1,5 +1,5 @@
 # Stage 1: Build the Angular application
-FROM node:latest as build
+FROM node:14 as build
 
 WORKDIR /usr/src/app
 
@@ -22,4 +22,4 @@ FROM nginx:latest
 COPY --from=build /usr/src/app/dist/ /usr/share/nginx/html
 
 # Expose the port on which the application will run (if needed)
-EXPOSE 80
+EXPOSE 82
