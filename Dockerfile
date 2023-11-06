@@ -1,5 +1,5 @@
 # Use an official Nginx runtime as a parent image
-FROM nginx:14
+FROM nginx:latest
 
 # Set the working directory to the Nginx web root
 WORKDIR /usr/share/nginx/html
