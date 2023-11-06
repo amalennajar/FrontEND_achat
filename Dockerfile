@@ -1,25 +1,14 @@
-# Stage 1: Build the Angular application
-FROM node:14 as build
-
-WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json to the container
-COPY package.json package-lock.json ./
-
-# Install project dependencies, bypassing peer dependency check
-RUN npm install 
-
-# Copy the application files
-COPY . .
-
-# Build the Angular application
-RUN npm run build
-
-# Stage 2: Use a lightweight image for serving the application
+# Use an official Nginx runtime as a parent image
 FROM nginx:latest
 
-# Copy the built application to the nginx public folder
-COPY --from=build /usr/src/app/dist/ /usr/share/nginx/html
+# Set the working directory to the Nginx web root
+WORKDIR /usr/share/nginx/html
 
-# Expose the port on which the application will run (if needed)
+# Copy the pre-built contents of your Angular app to the working directory in the container
+COPY dist/ .
+
+# Expose the port on which Nginx will run (port 80 is the default for HTTP)
 EXPOSE 82
+
+# Start the Nginx server in the foreground
+CMD ["nginx", "-g", "daemon off;"]
