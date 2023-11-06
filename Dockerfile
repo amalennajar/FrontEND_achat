@@ -8,7 +8,7 @@ WORKDIR /usr/share/nginx/html
 COPY dist/ .
 
 # Expose the port on which Nginx will run (port 80 is the default for HTTP)
-EXPOSE 82
+EXPOSE 80
 
 # Start the Nginx server in the foreground
 CMD ["nginx", "-g", "daemon off;"]
